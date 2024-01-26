@@ -1,10 +1,10 @@
-name : lab-git-ci-HayalAhl/.github/workflows/main.yml
+name: lab-git-ci-HayalAhl/.github/workflows/main.yml
 
 on:
   push:
     branches:
-    - main
-    - release/*
+      - main
+      - release/*
   pull_request:
     branches:
       - main
@@ -14,13 +14,19 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    
-    steps:
-    - name: Set up JDK 8
-      uses: actions/setup-java@v2
-      with:
-        java-version: '8'
-        distribution: 'adopt'
 
-    - name: Build with Maven
-      run: mvn --batch-mode --update-snapshots package
+    steps:
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots package
+
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: target/**/*.xml
