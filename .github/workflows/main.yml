@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - feature/**
+      - feature/** #to launch the pipeline on all branches of type
   pull_request:
     branches:
       - main
